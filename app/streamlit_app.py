@@ -37,6 +37,62 @@ st.set_page_config(
 
 
 # ============================================================
+# Static login (demo gate — credentials shown on-screen)
+# ============================================================
+LOGIN_USERNAME = "Admin"
+LOGIN_PASSWORD = "Admin@123"
+
+
+def render_login() -> bool:
+    """Returns True when authenticated. Otherwise renders the login form and returns False."""
+    if st.session_state.get("authenticated"):
+        return True
+
+    # Hide sidebar on the login screen
+    st.markdown(
+        '<style>section[data-testid="stSidebar"] { display: none !important; }</style>',
+        unsafe_allow_html=True,
+    )
+    st.markdown('<div style="height: 3rem;"></div>', unsafe_allow_html=True)
+
+    _, mid, _ = st.columns([1, 1.5, 1])
+    with mid:
+        st.markdown(
+            """
+            <div style="text-align: center; padding-bottom: 0.5rem;">
+                <div class="login-icon">🧠</div>
+                <p class="login-title">Parkinson's Detection</p>
+                <p class="login-subtitle">Sign in to access the voice-biomarker AI demo.</p>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
+        with st.form("login_form", clear_on_submit=False):
+            username = st.text_input("Username", placeholder="Admin")
+            password = st.text_input("Password", placeholder="Admin@123", type="password")
+            submit = st.form_submit_button("Sign in", type="primary", use_container_width=True)
+
+            if submit:
+                if username == LOGIN_USERNAME and password == LOGIN_PASSWORD:
+                    st.session_state.authenticated = True
+                    st.rerun()
+                else:
+                    st.error("Invalid credentials. Use Admin / Admin@123.")
+
+        st.markdown(
+            """
+            <div class="login-hint">
+                🔑 Demo credentials &mdash; Username: <code>Admin</code> &nbsp;·&nbsp; Password: <code>Admin@123</code>
+            </div>
+            <div class="login-footer">© 2026 Matam Dinesh Chandra · Portfolio Demo</div>
+            """,
+            unsafe_allow_html=True,
+        )
+    return False
+
+
+# ============================================================
 # Cached loaders
 # ============================================================
 def inject_css() -> None:
@@ -479,6 +535,13 @@ def sidebar(df: pd.DataFrame) -> tuple[str, dict]:
         "**⚠️ Not medical advice.** Research/portfolio demo only. "
         "Always consult a qualified clinician."
     )
+
+    # Logout
+    st.sidebar.markdown('<div class="sidebar-logout"></div>', unsafe_allow_html=True)
+    if st.sidebar.button("🔒 Sign out", use_container_width=True):
+        st.session_state.authenticated = False
+        st.rerun()
+
     return preset, defaults
 
 
@@ -487,6 +550,9 @@ def sidebar(df: pd.DataFrame) -> tuple[str, dict]:
 # ============================================================
 def main() -> None:
     inject_css()
+
+    if not render_login():
+        st.stop()
 
     # Session state defaults
     if "last_prediction" not in st.session_state:
@@ -740,7 +806,7 @@ non-invasive **screening signal** before clinical assessment.
 - [GitHub repo](https://github.com/MatamDinesh0802/Parkinsons-Disease-Detection-SVM)
 
 ### Author
-**Matam Dinesh**
+**Matam Dinesh Chandra**
 [matamdinesh0802@gmail.com](mailto:matamdinesh0802@gmail.com)
 """)
 
@@ -750,7 +816,7 @@ non-invasive **screening signal** before clinical assessment.
     st.markdown(
         f"""
         <div class="footer">
-            <div>© 2026 Matam Dinesh · MIT License · Built with Streamlit & scikit-learn</div>
+            <div>© 2026 Matam Dinesh Chandra · MIT License · Built with Streamlit & scikit-learn</div>
             <div>
                 <a href="https://github.com/MatamDinesh0802/Parkinsons-Disease-Detection-SVM">GitHub</a>
                 · <a href="mailto:matamdinesh0802@gmail.com">Contact</a>

@@ -75,6 +75,15 @@ python -m src.parkinsons.evaluate      # print the metrics table
 streamlit run app/streamlit_app.py     # launch the demo
 ```
 
+Sign in to the Streamlit demo with **Username: `Admin`** · **Password: `Admin@123`** (static demo credentials).
+
+### Reproduce via Colab notebook
+
+For an EDA-first walkthrough, open [`notebooks/01_train_parkinsons.ipynb`](notebooks/01_train_parkinsons.ipynb)
+in Google Colab. It loads the UCI dataset directly, runs EDA (correlation heatmap, class balance),
+trains all 5 models, and exports the same artifacts (`best_model.joblib`, `scaler.joblib`,
+`metrics.json`, ROC + confusion-matrix figures). Drop them into `models/` and `reports/`.
+
 Run tests:
 
 ```bash
@@ -156,4 +165,4 @@ Parkinsons-Disease-Detection-SVM/
 
 ## 👤 Author
 
-**Matam Dinesh** — [GitHub](https://github.com/MatamDinesh0802) · [Email](mailto:matamdinesh0802@gmail.com)
+**Matam Dinesh Chandra** — [GitHub](https://github.com/MatamDinesh0802) · [Email](mailto:matamdinesh0802@gmail.com)
