@@ -1,0 +1,33 @@
+# Virtual env (per-project)
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Models & artifacts
+models/*.pkl
+models/*.joblib
+models/*.h5
+models/*.onnx
+!models/.gitkeep
+
+# Data (large/raw — keep instructions only)
+# Note: parkinsons.csv is small (~40KB) and shipped with the repo, so it's not ignored.
+data/raw/*.zip
+data/raw/*.tar.gz
+data/processed/
+
+# OS / IDE
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Reports — keep figures committed, ignore scratch
+reports/scratch/
